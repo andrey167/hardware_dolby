@@ -34,11 +34,11 @@ fun FloatingNavToolbar(
 ) {
     val haptic = rememberHapticFeedback()
     val scope = rememberCoroutineScope()
-    
+
     val isHomeSelected = currentRoute == "settings"
     val isEqualizerSelected = currentRoute == "equalizer"
     val isAdvancedSelected = currentRoute == "advanced"
-    
+
     val containerColor = MaterialTheme.colorScheme.primaryContainer
     val onContainerColor = MaterialTheme.colorScheme.onPrimaryContainer
     val primaryColor = MaterialTheme.colorScheme.primary
@@ -48,72 +48,82 @@ fun FloatingNavToolbar(
         modifier = modifier.fillMaxWidth(),
         contentAlignment = Alignment.Center
     ) {
-        HorizontalFloatingToolbar(
-            expanded = true,
-            colors = FloatingToolbarDefaults.vibrantFloatingToolbarColors(
-                toolbarContainerColor = containerColor,
-                toolbarContentColor = onContainerColor
-            ),
+        Surface(
             modifier = Modifier
                 .padding(
-                    top = FloatingToolbarDefaults.ScreenOffset,
-                    bottom = FloatingToolbarDefaults.ScreenOffset
+                    top = 16.dp,
+                    bottom = 16.dp
                 )
                 .shadow(
                     elevation = 16.dp,
                     shape = MaterialTheme.shapes.extraLarge,
                     ambientColor = Color.Black.copy(alpha = 0.4f),
                     spotColor = Color.Black.copy(alpha = 0.5f)
-                )
+                ),
+            shape = MaterialTheme.shapes.extraLarge,
+            color = containerColor,
+            contentColor = onContainerColor
         ) {
-            NavToolbarItem(
-                icon = Icons.Default.Home,
-                label = stringResource(R.string.home),
-                selected = isHomeSelected,
-                primaryColor = primaryColor,
-                onPrimaryColor = onPrimaryColor,
-                containerColor = containerColor,
-                onContainerColor = onContainerColor,
-                onClick = {
-                    scope.launch {
-                        haptic.performHaptic(HapticFeedbackHelper.HapticIntensity.DOUBLE_CLICK)
+            Row(
+                modifier = Modifier.padding(8.dp),
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                NavToolbarItem(
+                    icon = Icons.Default.Home,
+                    label = stringResource(R.string.home),
+                    selected = isHomeSelected,
+                    primaryColor = primaryColor,
+                    onPrimaryColor = onPrimaryColor,
+                    containerColor = containerColor,
+                    onContainerColor = onContainerColor,
+                    onClick = {
+                        scope.launch {
+                            haptic.performHaptic(
+                                HapticFeedbackHelper.HapticIntensity.DOUBLE_CLICK
+                            )
+                        }
+                        onNavigate("settings")
                     }
-                    onNavigate("settings")
-                }
-            )
-            
-            NavToolbarItem(
-                icon = Icons.Default.GraphicEq,
-                label = stringResource(R.string.equalizer),
-                selected = isEqualizerSelected,
-                isEqualizer = true,
-                primaryColor = primaryColor,
-                onPrimaryColor = onPrimaryColor,
-                containerColor = containerColor,
-                onContainerColor = onContainerColor,
-                onClick = {
-                    scope.launch {
-                        haptic.performHaptic(HapticFeedbackHelper.HapticIntensity.DOUBLE_CLICK)
+                )
+
+                NavToolbarItem(
+                    icon = Icons.Default.GraphicEq,
+                    label = stringResource(R.string.equalizer),
+                    selected = isEqualizerSelected,
+                    isEqualizer = true,
+                    primaryColor = primaryColor,
+                    onPrimaryColor = onPrimaryColor,
+                    containerColor = containerColor,
+                    onContainerColor = onContainerColor,
+                    onClick = {
+                        scope.launch {
+                            haptic.performHaptic(
+                                HapticFeedbackHelper.HapticIntensity.DOUBLE_CLICK
+                            )
+                        }
+                        onNavigate("equalizer")
                     }
-                    onNavigate("equalizer")
-                }
-            )
-            
-            NavToolbarItem(
-                icon = Icons.Default.Settings,
-                label = stringResource(R.string.advanced),
-                selected = isAdvancedSelected,
-                primaryColor = primaryColor,
-                onPrimaryColor = onPrimaryColor,
-                containerColor = containerColor,
-                onContainerColor = onContainerColor,
-                onClick = {
-                    scope.launch {
-                        haptic.performHaptic(HapticFeedbackHelper.HapticIntensity.DOUBLE_CLICK)
+                )
+
+                NavToolbarItem(
+                    icon = Icons.Default.Settings,
+                    label = stringResource(R.string.advanced),
+                    selected = isAdvancedSelected,
+                    primaryColor = primaryColor,
+                    onPrimaryColor = onPrimaryColor,
+                    containerColor = containerColor,
+                    onContainerColor = onContainerColor,
+                    onClick = {
+                        scope.launch {
+                            haptic.performHaptic(
+                                HapticFeedbackHelper.HapticIntensity.DOUBLE_CLICK
+                            )
+                        }
+                        onNavigate("advanced")
                     }
-                    onNavigate("advanced")
-                }
-            )
+                )
+            }
         }
     }
 }
